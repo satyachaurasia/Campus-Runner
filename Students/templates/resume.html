@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block extracss %}
+    #content {
+                width: 80%;
+                height: 800px;
+                border-style: solid;
+                border-color: #5E5694;
+                position: absolute;
+                top: 40%;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+          }
+{% endblock extracss %}
+
+{% block content %}
+
+    <div id="content">
+        <div class="row">
+            <h1 style="text-align: center">{{name}}</h1>
+            <h5 style="text-align: center">{{email}}</h5>
+            <hr>
+        </div>
+    </div>
+
+
+{% endblock content %}

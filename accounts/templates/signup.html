@@ -1,0 +1,221 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <!-- Compiled and minified CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+      <style>
+          .nav-wrapper {
+              background-color: #5E5694 !important;
+          }
+
+          #content {
+                width: 400px;
+                height: 550px;
+                border-style: solid;
+                border-color: #5E5694;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                margin: auto;
+          }
+
+      </style>
+
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+              <a class="brand-logo" href="#" style="margin-left: 20px;">Campus-Runner</a>
+              <ul class="right hide-on-med-and-down" id="nav-mobile">
+                  <li><a href="{% url 'login' %}">Log in </a></li>
+              </ul>
+            </div>
+        </nav>
+
+            <div id="content">
+                <div class="row">
+                    <form class="col s12" id="form1" method="post">
+                        {% csrf_token %}
+                        <div class="personal">
+                          <div class="row">
+                            <div class="input-field col s6">
+                              <input class="validate" id="first_name" name="first_name" type="text" required>
+                              <label for="first_name">First Name*</label>
+                            </div>
+                            <div class="input-field col s6">
+                              <input class="validate" id="last_name" name="last_name" type="text" required>
+                              <label for="last_name">Last Name*</label>
+                            </div>
+                          </div>
+                           <div class="row">
+                            <div class="input-field col s12">
+                              <input class="validate" id="email" name="email" type="email" required>
+                              <label for="email">Email*</label>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <input class="validate" id="password" name="password" type="password" required>
+                              <label for="password">Password*</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <input class="validate" id="phone" name="phone" type="number" required>
+                              <label for="phone">Phone*</label>
+                            </div>
+                          </div>
+
+                          <div class="input-field col s12">
+                              <select id="account_type" name="account_type" required>
+                                 <option disabled selected value="">Type of Account*</option>
+                                  <option value="student">Student</option>
+                                  <option value="faculty">Faculty</option>
+                                  <option value="company">Company</option>
+                              </select>
+                          </div>
+
+
+
+                          <a class="waves-effect waves-light btn next" style="float: right;">Next</a>
+
+                            <div class="row company" style="display: none;">
+                                <div class="input-field col s12">
+                                  <input class="validate" id="company" name="company" type="text">
+                                  <label for="company">Company Name*</label>
+                                </div>
+                                <button class="btn waves-effect waves-light" name="action" style="float: right; margin-top: 20px;" type="submit">Submit</button>
+                          </div>
+
+
+                        </div>
+
+                        <div class="student" style="display: none;">
+                             <div class="row">
+                                <div class="input-field col s12">
+                                  <input class="validate" id="student_id" name="student_id" type="text">
+                                  <label for="student_id">Student ID*</label>
+                                </div>
+                            </div>
+                          <div class="row">
+                            <div class="input-field col s6">
+                              <input class="validate" id="department" name="department" type="text">
+                              <label for="department">Department</label>
+                            </div>
+                            <div class="input-field col s6">
+                              <input class="validate" id="gpa" max="10" min="0" name="gpa" type="number">
+                              <label for="gpa">GPA
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="input-field col s12">
+                              <select id="year" name="year">
+                                 <option disabled selected value="">Select Class</option>
+                                  <option value="BE">BE</option>
+                                  <option value="TE">TE</option>
+                                  <option value="SE">SE</option>
+                                  <option value="FE">FE</option>
+                              </select>
+                          </div>
+
+                           <div class="input-field col s12">
+                              <select id="college" name="college">
+                                 <option disabled selected value="">Select College*</option>
+                                  {% for i in college_list%}
+                                  <option value={{i.id}}>{{i.name}}</option>
+                                  {% endfor %}}
+                              </select>
+                          </div>
+
+                          <button class="btn waves-effect waves-light" name="action" style="float: right; margin-top: 20px;" type="submit">Submit</button>
+                        </div>
+
+                        <div class="faculty" style="display: none;">
+                             <div class="row">
+                                <div class="input-field col s12">
+                                  <input class="validate" id="emp_id" name="emp_id" type="text">
+                                  <label for="emp_id">Employee ID*</label>
+                                </div>
+                            </div>
+                          <div class="row">
+                            <div class="input-field col s6">
+                              <input class="validate" id="faculty_department" name="faculty_department" type="text">
+                              <label for="faculty_department">Department</label>
+                            </div>
+                            <div class="input-field col s6">
+                              <input class="validate" id="position" name="position" type="text">
+                              <label for="position">Position
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="input-field col s12">
+                              <select id="college1" name="college">
+                                 <option disabled selected value="">Select College*</option>
+                                  {% for i in college_list%}
+                                  <option value={{i.id}}>{{i.name}}</option>
+                                  {% endfor %}}
+                              </select>
+                          </div>
+
+                          <button class="btn waves-effect waves-light" name="action" style="float: right; margin-top: 20px;" type="submit">Submit</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+
+
+
+      <!--JavaScript at end of body for optimized loading-->
+       <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    </body>
+    <script>
+        $(document).ready(function() {
+            $('select').formSelect();
+
+            $('.next').click(function () {
+                let account_type = $('#account_type').val();
+
+                if(account_type=='student'){
+                     $('.personal').hide();
+                    $('.student').css('display', 'block');
+                }
+                else if (account_type=='faculty'){
+                     $('.personal').hide();
+                    $('.faculty').css('display', 'block');
+                }
+                else
+                    $('.next').hide();
+                    $('.company').css('display', 'block');
+
+
+            });
+
+            {% if success %}
+                M.toast({html: 'User created successfully!'})
+            {% endif %}
+
+            {% if no_success %}
+                M.toast({html: 'User not created successfully!'})
+            {% endif %}
+        });
+    </script>
+  </html>

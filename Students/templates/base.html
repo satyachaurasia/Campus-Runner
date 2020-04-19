@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <!-- Compiled and minified CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
+    <style>
+        .nav-wrapper {
+            background-color: #5E5694 !important;
+        }
+
+    {% block extracss %}
+
+    {% endblock extracss %}
+
+    </style>
+
+
+
+
+
+</head>
+
+<body>
+<nav>
+    <div class="nav-wrapper">
+        <a class="brand-logo" href="#" style="margin-left: 20px;">Campus-Runner</a>
+        <ul class="right hide-on-med-and-down" id="nav-mobile">
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li><a href="{% url 'students:resume' %}">Resume</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+{% block content %}
+
+{% endblock content %}
+
+
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+</body>
+<script>
+
+{% block js %}
+
+{% endblock js %}
+
+</script>
+</html>
