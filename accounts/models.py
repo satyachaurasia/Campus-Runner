@@ -9,6 +9,7 @@ YEAR = (
 	('FE', 'First Year')
 	)
 
+
 class College(models.Model):
 	name = models.CharField(max_length=50, unique=True)
 

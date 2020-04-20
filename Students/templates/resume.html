@@ -2,17 +2,29 @@
 
 {% block extracss %}
     #content {
-                width: 80%;
-                height: 800px;
+                width: 60%;
+                min-height: 50%;
+                max-height: auto;
                 border-style: solid;
                 border-color: #5E5694;
                 position: absolute;
-                top: 40%;
-                bottom: 0;
+                top: 20%;
                 left: 0;
                 right: 0;
                 margin: auto;
+                overflow:hidden;
           }
+
+        .close{
+              background-color: #f74336;
+          }
+
+        .send{
+            background-color: #1ee6e2;
+        }
+
+
+
 {% endblock extracss %}
 
 {% block content %}
@@ -20,10 +32,206 @@
     <div id="content">
         <div class="row">
             <h1 style="text-align: center">{{name}}</h1>
-            <h5 style="text-align: center">{{email}}</h5>
+            <h5 style="text-align: center">{{email}}
+                {% if student.phone_number%}
+                    | {{student.phone_number}}
+                {% endif %}
+            </h5>
             <hr>
         </div>
+
+        <div class="row">
+            <div class="col s7 push-s5">
+                <div style="margin-right: 10%; height: auto; margin-bottom: 5%;">
+                    <span style="font-size: x-large;">PROJECTS</span><br>
+                    {% for i in projects %}
+                        <span style="font-size: x-large;"><b>{{i.title}}</b></span><br>
+                        <span style="font-size: larger">{{i.start_date}} - {{i.end_date}}</span><br>
+                        <span style="font-size: large">{{i.description}}</span><br>
+                    {% endfor %}
+                    <a class="waves-effect waves-light btn-small add-project" style="position: inherit;">ADD PROJECT</a>
+                </div>
+
+                <div style="margin-right: 10%; height: auto;">
+                    <span style="font-size: x-large;">INTERNSHIPS</span><br>
+                    {% for i in internships %}
+                        <span style="font-size: x-large;"><b>{{i.organization}}</b> | {{i.profile}}</span><br>
+                        <span style="font-size: larger;">{{i.start_date}} - {{i.end_date}}</span><br>
+                        <span style="font-size: large;">{{i.description}}</span><br>
+                    {% endfor %}
+                    <br>
+                    <a class="waves-effect waves-light btn-small add-intern" style="position: inherit;">ADD INTERNSHIP</a>
+                </div>
+
+            </div>
+            <div class="col s5 pull-s7">
+                <div style="margin-left: 10%;">
+                    <span style="font-size: x-large;">EDUCATION</span><br>
+                    <span style="font-size: x-large;"><b>{{student.college}}</b></span><br>
+                    <span style="font-size: larger">BE in {{student.department}}</span><br>
+                    <span style="font-size: large">CGPI {{student.gpa}}/10</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
+
+        <!-- Modal Structure -->
+        <div class="modal" id="modal1" style="display:none">
+            <div class="modal-content">
+                <div class="row">
+                    <h4>Internship</h4>
+                    <div class="input-field col s6">
+                        <input class="validate" id="profile" name="profile" type="text" required>
+                        <label for="profile">Job Profile</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input class="validate" id="organization" name="organization" type="text" required>
+                        <label for="organization">Organization</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" class="datepicker" id="start_date" name="start_date" required>
+                        <label for="start_date">Start Date</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" class="datepicker" id="end_date" name="end_date" required>
+                        <label for="end_date">End Date</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="description" class="materialize-textarea" name="description"></textarea>
+                        <label for="description">Description</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn close">Close</a>
+                <a class="waves-effect waves-light btn send">Submit</a>
+            </div>
+        </div>
+
+        <div class="modal" id="modal2" style="display:none">
+            <div class="modal-content">
+                <div class="row">
+                    <h4>Project</h4>
+                    <div class="input-field col s6">
+                        <input class="validate" id="title" name="title" type="text" required>
+                        <label for="profile">Title</label>
+                    </div>
+                    <div class="input-field col s6">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input type="text" class="datepicker" id="start_datep" name="start_datep" required>
+                        <label for="start_datep">Start Date</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input type="text" class="datepicker" id="end_datep" name="end_datep" required>
+                        <label for="end_datep">End Date</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="descriptionp" class="materialize-textarea" name="descriptionp"></textarea>
+                        <label for="descriptionp">Description</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn close">Close</a>
+                <a class="waves-effect waves-light btn sendp">Submit</a>
+            </div>
+        </div>
+
+
 {% endblock content %}
+
+
+{% block extrajs %}
+
+    $(document).ready(function() {
+            $('.modal').modal();
+            $('.datepicker').datepicker();
+            $('.close').click(function () {
+                $('.modal').css('display', 'none');
+            })
+
+            $('.sendp').click(function () {
+                let title = $( "#title" ).val();
+                let start_date = $( "#start_datep" ).val();
+                let end_date = $( "#end_datep" ).val();
+                let description = $( "#descriptionp" ).val();
+
+                $.ajax({
+                    type : "POST",
+                    url: '{% url 'students:save_project' %}',
+                    data: {
+                      'csrfmiddlewaretoken': '{{ csrf_token }}',
+                      'title': title,
+                      'start_date' : start_date,
+                      'end_date' : end_date,
+                      'description' : description
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.is_taken) {
+                        alert("Added Successfully");
+                      }
+                    }
+                });
+
+                $('.modal').css('display', 'none');
+            })
+
+            $('.send').click(function () {
+                let profile = $( "#profile" ).val();
+                let organization = $( "#organization" ).val();
+                let start_date = $( "#start_date" ).val();
+                let end_date = $( "#end_date" ).val();
+                let description = $( "#description" ).val();
+
+                console.log(profile, organization, start_date, description);
+
+                $.ajax({
+                    type : "POST",
+                    url: '{% url 'students:save_internship' %}',
+                    data: {
+                      'csrfmiddlewaretoken': '{{ csrf_token }}',
+                      'profile': profile,
+                      'organization' : organization,
+                      'start_date' : start_date,
+                      'end_date' : end_date,
+                      'description' : description
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.is_taken) {
+                        alert("Added Successfully");
+                      }
+                    }
+                });
+
+                $('.modal').css('display', 'none');
+            })
+
+            $('.add-intern').click(function () {
+                $('#modal1').css('display', 'block');
+
+            });
+
+            $('.add-project').click(function () {
+                $('#modal2').css('display', 'block');
+
+            });
+
+
+        });
+
+
+{% endblock extrajs%}
