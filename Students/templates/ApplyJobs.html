@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block extracss %}
+
+
+{% endblock extracss %}
+
+{% block content %}
+
+<div class="row" style="margin-top: 5%;">
+    <div class="col s12">
+        <table class="centered responsive-table highlight">
+            <thead>
+            <tr>
+                <th>Job Profile</th>
+                <th>Vacancy</th>
+                <th>Job Description</th>
+                <th>Criteria</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for job in job_list%}
+            <tr>
+                <td>{{job.job_title}}</td>
+                <td>{{job.vacancy}}</td>
+                <td>{{job.job_description}}</td>
+                <td>{{job.criteria}}</td>
+                <td>
+                    <button class="btn waves-effect waves-light #8e24aa purple darken-1 apply_btn" type="button" name="action" id="{{job.id}}"> Apply
+                    <i class="material-icons right">send</i>
+                    </button>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block extrajs %}
+
+$(document).ready(function() {
+
+    $('.modal').modal();
+
+    $('.apply_btn').click(function(){
+        let job_id = this.id;
+
+        $.ajax({
+            type:"GET",
+            url : "{% url 'students:register_jobs' %}",
+            data : {
+                'job_id':job_id,
+            },
+            success : function(data) {
+                if(data.success){
+                    $('#'+job_id).removeClass("waves-effect waves-light #8e24aa purple darken-1").addClass('disabled');
+                }
+                else{
+                    window.alert("Something Wrong");
+                }
+            }
+
+        });
+
+    });
+
+
+
+    $('.close').click(function () {
+        $('.modal').css('display', 'none');
+    });
+
+
+});
+
+{% endblock extrajs %}

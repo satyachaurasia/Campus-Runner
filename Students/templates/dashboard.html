@@ -1,1 +1,35 @@
 {% extends 'base.html' %}
+
+{% block content %}
+<div class="row" style="text-align: center;">
+    <h3>Applications</h3>
+</div>
+
+<div class="row container" style="margin-top: 5%;">
+    <div class="col s12">
+        <table class="centered responsive-table highlight">
+            <thead>
+            <tr>
+                <th>Job Profile</th>
+                <th>Vacancy</th>
+                <th>Job Description</th>
+                <th>Criteria</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for job in job_applied%}
+            <tr>
+                <td>{{job.job_title}}</td>
+                <td>{{job.vacancy}}</td>
+                <td>{{job.job_description}}</td>
+                <td>{{job.criteria}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}

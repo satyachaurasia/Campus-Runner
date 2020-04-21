@@ -24,7 +24,12 @@ class LoginView(View):
 
         if user is not None:
             login(request, user)
-            return redirect('students:dashboard')
+            if Student.objects.filter(user=user).exists():
+                return redirect('students:dashboard')
+            elif Faculty.objects.filter(user=user).exists():
+                return redirect('students:dashboard')
+            else:
+                return redirect('company:jobs')
         else:
             context = {
                 'no_success': True

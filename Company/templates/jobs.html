@@ -1,0 +1,156 @@
+{% extends 'company_base.html' %}
+
+{% block extracss %}
+
+.btn-floating {
+position: fixed;
+bottom: 5%;
+right: 2%;
+}
+
+.modal {
+  position:fixed;
+  top:10% !important;
+
+}
+
+{% endblock extracss %}
+
+{% block content %}
+
+<a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+
+
+<div class="row" style="margin-top: 5%;">
+    <div class="col s12">
+        <table class="centered responsive-table highlight">
+            <thead>
+            <tr>
+                <th>Job Profile</th>
+                <th>Vacancy</th>
+                <th>Job Description</th>
+                <th>Criteria</th>
+                <th>College</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for job in job_profiles%}
+            <tr class="">
+                <td>{{job.job_title}}</td>
+                <td>{{job.vacancy}}</td>
+                <td>{{job.job_description}}</td>
+                <td>{{job.criteria}}</td>
+                <td>{{job.college}}</td>
+                <td>
+                    <button class="btn waves-effect waves-light #8e24aa purple darken-1 know_more" type="button" name="action" \
+                            id="{{job.id}}" onclick="location.href='{% url 'company:jobss' job.id %}';"> To know more click here
+                    <i class="material-icons right">navigate_next</i>
+                    </button>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="row">
+            <h4>ADD JOB</h4>
+            <div class="input-field col s6">
+                <input class="validate" id="job_title" name="job_title" required type="text">
+                <label for="job_title">Job Profile</label>
+            </div>
+            <div class="input-field col s6">
+                <input class="validate" id="vacancy" name="vacancy" required type="number">
+                <label for="vacancy">Vacancies</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <input class="criteria" id="criteria" name="criteria" required type="number" step=".01">
+                <label for="criteria">Criteria</label>
+            </div>
+            <div class="input-field col s6">
+                <select id="college" name="college">
+                        <option disabled selected value="">Select College</option>
+                        {% for i in college_list%}
+                        <option value={{i.id}}>{{i.name}}</option>
+                        {% endfor %}}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea class="materialize-textarea" id="job_description" name="job_description"></textarea>
+                <label for="job_description">Job Description</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="waves-effect waves-light btn close">Close</a>
+        <a class="waves-effect waves-light btn send">Submit</a>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+$(document).ready(function() {
+    $('.fixed-action-btn').floatingActionButton();
+    $('select').formSelect();
+
+    $('.modal').modal();
+
+    $('.send').click(function () {
+                let job_title = $( "#job_title" ).val();
+                let vacancy = $( "#vacancy" ).val();
+                let criteria = $( "#criteria" ).val();
+                let college = $( "#college" ).val();
+                let job_description = $( "#job_description" ).val();
+
+                $.ajax({
+                    type : "POST",
+                    url: '{% url 'company:job_post' %}',
+                    data: {
+                      'csrfmiddlewaretoken': '{{ csrf_token }}',
+                      'job_title': job_title,
+                      'vacancy' : vacancy,
+                      'criteria' : criteria,
+                      'college' : college,
+                      'job_description' : job_description
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                      if (data.success) {
+                        let row = '<tr><td>'+data.job_title+'</td><td>'+data.vacancy+'</td><td>'+data.job_description+'</td><td>'+data.criteria+'</td><td>'+data.college+'</td></tr>';
+                        $(".responsive-table tbody").prepend(row);
+
+                      }
+                      else{
+                            alert("Something Wrong");
+                      }
+                    }
+                });
+
+                $('.modal').css('display', 'none');
+    })
+
+    $('.close').click(function () {
+        $('.modal').css('display', 'none');
+    })
+
+    $('.btn-floating').click(function(){
+        $('.modal').css('display', 'block');
+    });
+
+});
+
+{% endblock extrajs %}
+

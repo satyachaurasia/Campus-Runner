@@ -1,0 +1,77 @@
+{% extends 'company_base.html' %}
+
+{% block extracss %}
+
+.btn-floating {
+position: fixed;
+bottom: 5%;
+right: 2%;
+}
+
+.modal {
+  position:fixed;
+  top:10% !important;
+
+}
+
+{% endblock extracss %}
+
+{% block content %}
+
+<div class="row" style="margin-top: 1%;">
+    <div class="col s4">
+        <h5><span>Job Profile</span>: {{job.job_title}}<br>
+        <span>Vacancy</span>: {{job.vacancy}}<br>
+        <span>Criteria: </span> {{job.criteria}}<br>
+        <span>Job Description</span>: {{job.job_description}}<br></h5>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 5%;">
+    <div class="col s12">
+        <table class="centered responsive-table highlight">
+            <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Student ID</th>
+                <th>CGPA</th>
+                <th>Department</th>
+                <th>Phone No.</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for student in applied_student%}
+            <tr class="">
+                <td>{{student.user.first_name}}</td>
+                <td>{{student.user.last_name}}</td>
+                <td>{{student.student_id}}</td>
+                <td>{{student.gpa}}</td>
+                <td>{{student.department}}</td>
+                <td>{{student.phone_number}}</td>
+                <td>
+                    <button class="btn waves-effect waves-light #8e24aa purple darken-1" type="button" name="action" \
+                            " onclick="location.href='{% url 'company:see_resume' student.id %}';"> See resume
+                    <i class="material-icons right">navigate_next</i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extrajs %}
+$(document).ready(function() {
+
+});
+
+{% endblock extrajs %}
+

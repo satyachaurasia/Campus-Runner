@@ -24,6 +24,7 @@ class Student(models.Model):
 	gpa = models.FloatField()
 	phone_number = models.CharField(max_length=10, blank=True, null=True)
 	college = models.ForeignKey(College, on_delete=models.CASCADE, blank=True, null=True)
+	jobs_applied = models.ManyToManyField('JobProfile', related_name='jobs')
 
 	def __str__(self):
 		return self.user.username

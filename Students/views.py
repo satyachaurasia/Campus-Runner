@@ -1,14 +1,51 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView, View
-from accounts.models import Student, Internships, Projects
+from accounts.models import Student, Internships, Projects, JobProfile
 from django.http import JsonResponse
 from datetime import datetime
 
 # Create your views here.
 
 
-class Dashboard(TemplateView):
+class RegisterForJob(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            job_id = request.GET.get('job_id')
+            job = JobProfile.objects.get(id=job_id)
+            student = Student.objects.get(user=request.user)
+            student.jobs_applied.add(job)
+
+            context = {
+                'success': True
+            }
+        except Exception as e:
+            print(e)
+            context = {
+                'success': False
+            }
+
+        return JsonResponse(context)
+
+
+
+class EligibleJobs(View):
+    def get(self, request, *args, **kwargs):
+        student = Student.objects.get(user=request.user)
+        context = dict()
+        already_applied = student.jobs_applied.all().values('id')
+        context['job_list'] = JobProfile.objects.filter(college=student.college, criteria__lte=student.gpa).exclude(id__in=already_applied)
+
+        return render(request,'ApplyJobs.html', context)
+
+
+class Dashboard(View):
     template_name = "dashboard.html"
+    def get(self, request, *args, **kwargs):
+        context = dict()
+        student = Student.objects.get(user=request.user)
+        context['job_applied'] = student.jobs_applied.all()
+        return render(request, 'dashboard.html', context)
+
 
 
 class ResumeView(View):
